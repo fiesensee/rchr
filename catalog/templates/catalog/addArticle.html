@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Article Catalog</title>
+    </head>
+    <body>
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <label for="newspaper">Newspaper:</label>
+            <select name="newspaper">
+                {% for newspaper in newspapers %}
+                <option value="{{ newspaper.id }}">{{ newspaper.name }}</option>
+                {% endfor %}
+            </select>
+            <a href="/addNewspaper">Add Newspaper</a>
+            <br>
+            <label for="author">Author:</label>
+            <input type="text" name="author" value="">
+            <br>
+            <label for="title">Title:</label>
+            <input type="text" name="title" value="">
+            <br>
+            <label for="text">Text:</label>
+            <textarea rows="20" cols="50" name="text"></textarea>
+            <br>
+            <label for="date">Date:</label>
+            <input type="datetime-local" name="date" value="">
+            <br>
+            <label for="source">Source:</label>
+            <input type="text" name="source" value="">
+            <br>
+            <label for="judgement">Judgment:</label>
+            <select name="judgement">
+                <option value="positive">Positive</option>
+                <option value="neutral">Neutral</option>
+                <option value="negative">Negative</option>
+                <option value="indecisive">Indecisive</option>
+            </select>
+            <input type="submit" name="submit" value="Submit">
+        </form>
+
+        <p>Current Articles<br>
+            Positive:{{positive}}  Neutral:{{neutral}}  Negative:{{negative}}  Indecisive:{{indecisive}}</p>
+    </body>
+</html>
