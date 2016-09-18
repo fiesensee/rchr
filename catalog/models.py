@@ -21,3 +21,6 @@ class Newspaper(models.Model):
 
     def __str__(self):
         return self.name
+
+class Catalog(models.Model):
+    activeNewspaper = models.ForeignKey('Newspaper')

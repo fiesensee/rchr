@@ -6,11 +6,8 @@
         <form action="#" method="POST">
             {% csrf_token %}
             <label for="newspaper">Newspaper:</label>
-            <select name="newspaper">
-                {% for newspaper in newspapers %}
-                <option value="{{ newspaper.id }}">{{ newspaper.name }}</option>
-                {% endfor %}
-            </select>
+            <label for="">{{newspaper}}</label>
+            <a href="/changeNewspaper">Change Newspaper</a>
             <a href="/addNewspaper">Add Newspaper</a>
             <br>
             <label for="author">Author:</label>

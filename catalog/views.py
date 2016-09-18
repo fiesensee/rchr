@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from .models import Article, Newspaper
+from .models import Article, Newspaper, Catalog
 
 # Create your views here.
 
@@ -9,29 +9,44 @@ def addArticle(request):
     neutral = len(Article.objects.filter(judging='neutral'))
     negative = len(Article.objects.filter(judging='negative'))
     indecisive = len(Article.objects.filter(judging='indecisive'))
-    newspapers = Newspaper.objects.all()
+    catalog = Catalog.objects.first()
+    activeNewspaper = catalog.activeNewspaper
 
     context = {
         'positive': positive,
         'neutral': neutral,
         'negative': negative,
         'indecisive': indecisive,
-        'newspapers': newspapers
+        'newspaper': activeNewspaper
     }
 
     if request.method == 'POST':
         newArticle = Article()
         newArticle.author = request.POST['author']
-        newArticle.newspaper = Newspaper.objects.get(pk = request.POST['newspaper'])
         newArticle.text = request.POST['text']
         newArticle.title = request.POST['title']
         newArticle.source = request.POST['source']
         newArticle.timestamp = request.POST['date']
         newArticle.judging = request.POST['judgement']
+        newArticle.newspaper = activeNewspaper
         newArticle.save()
 
         return HttpResponseRedirect('/')
     return render(request, 'catalog/addArticle.html', context)
+
+def changeNewspaper(request):
+    if request.method == 'POST':
+        newActive = Newspaper.objects.get(pk = request.POST['newspaper'])
+        catalog = Catalog.objects.first()
+        catalog.activeNewspaper = newActive
+        catalog.save()
+
+        return HttpResponseRedirect('/')
+    newspapers = Newspaper.objects.all()
+    context = {
+        'newspapers': newspapers
+    }
+    return render(request, 'catalog/changeNewspaper.html', context)
 
 def addNewspaper(request):
 
